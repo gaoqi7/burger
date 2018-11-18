@@ -1,33 +1,29 @@
 const express = require("express");
-const path = require("path");
-const orm = require("../config/orm.js");
-const exphbs = require("express-handlebars");
-const app = express();
-const PORT = 3000 || process.env.PORT;
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+const burger = require("../models/burger.js");
+const router = express.Router();
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("vew engine", "handlebars");
 
-app.post("/add", (req, res) =>
+router.post("/api/burger", (req, res) =>
 {
-    let newBg = req.body;
-    console.log(newBg);
-    orm.iOne(newBg.burger_name, newBg.devoured);
+    burger.new(req.body.burger_name, function (result) { res.json({ id: result.insertId }) })
 });
-app.get("/", (req, res) =>
+router.get("/", (req, res) =>
 {
-    let burgerT = orm.sAll(true);
-    let burgerF = orm.sAll(false);
+    burger.showAll(function (data) { res.render("index", { burger: data }) })
 })
-app.post("/update", (req, res) =>
+router.put("/api/:id", (req, res) =>
 {
-    let needUpdateBg = req.body;
-    orm.uOne(needUpdateBg.burger_name, needUpdateBg.devoured);
+    burger.eat(req.params.id, function (result)
+    {
+        if (result.changedRows == 0)
+        {
+            // If no rows were changed, then the ID must not exist, so 404
+            return res.status(404).end();
+        } else
+        {
+            res.status(200).end();
+        }
+    });
 });
 
-app.listen(PORT, function ()
-{
-    console.log("Server listening on: http://localhost:" + PORT);
-})
+module.exports = router;
