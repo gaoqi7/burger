@@ -5,19 +5,25 @@ const router = express.Router();
 
 router.post("/api/burger", (req, res) =>
 {
-    burger.new(req.body.burger_name, function (result) { res.json({ id: result.insertId }) })
+    burger.new(req.body.burger_name, function (a)
+    {
+        console.log("this is the request body" + req.body.burger_name)
+        console.log("what is the result of post " + a)
+
+        res.json({ id: a.insertId })
+    })
 });
 router.get("/", (req, res) =>
 {
     burger.showAll(function (data) { res.render("index", { burger: data }) })
 })
-router.put("/api/:id", (req, res) =>
+router.post("/api/:id", (req, res) =>
 {
     burger.eat(req.params.id, function (result)
     {
+        console.log("reqest params id  " + req.params.id)
         if (result.changedRows == 0)
         {
-            // If no rows were changed, then the ID must not exist, so 404
             return res.status(404).end();
         } else
         {

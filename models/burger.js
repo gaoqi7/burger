@@ -9,9 +9,9 @@ const burger = {
     {
         orm.add(bn, function (res) { cb(res); })
     },
-    eat: function (bn, cb)
+    eat: function (bid, cb)
     {
-        orm.update(bn, function (res) { cb(res); })
+        orm.update(bid, function (res) { cb(res); })
     }
 };
 

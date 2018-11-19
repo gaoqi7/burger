@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
-const PORT = 3000 || process.env.PORT;
+const PORT = 8080 || process.env.PORT;
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("vew engine", "handlebars");
+app.set("view engine", "handlebars");
 
 
 app.use(express.urlencoded({ extended: true }));

@@ -11,16 +11,15 @@ var orm = {
     },
     add: function insertOne(bn, cb)
     {
-        connection.query(`INSERT INTO burgers(burger_name,devoured) VALUES (${bn},true) `, (err, result) =>
+        connection.query(`INSERT INTO burgers(burger_name,devoured) VALUES (?,?);`, [bn, false], (err, result) =>
         {
             if (err) console.log(err);
             cb(result);
-            console.log("New Burger Added");
         })
     },
-    update: function updateOne(bn, cb)
+    update: function updateOne(bid, cb)
     {
-        connection.query(`UPDATE burgers SET false WHERE burger_name = ${bn}`, (err, result) =>
+        connection.query("UPDATE burgers SET devoured =? WHERE id= ?", [true, bid], (err, result) =>
         {
             if (err) console.log(err);
             cb(result);

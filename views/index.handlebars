@@ -1,6 +1,30 @@
-<div class="order-0">
-
+<div class="order-0 card text-right bg-warning" style=" width: 22rem;">
+    <div class="card-header">
+        Enjoy your Burger--- HERE!!!
+    </div>
+    <ul class="list-group list-group-flush">
+        {{#each burger}}
+        {{#unless devoured}}
+        <li class="list-group-item p-1 bg-warning">
+            <h6>
+                {{this.burger_name}} <button data-burgerid="{{this.id}}" class="eatBurger badge badge-primary"> Devour!</button>
+            </h6>
+        </li>
+        {{/unless}}
+        {{/each}}
+    </ul>
 </div>
-<div class="order-2">
-
+<div class="card order-2 bg-warning">
+    <div class="card-header">
+        Have a nice burger day!
+    </div>
+    <ul class="list-group">
+        {{#each burger}}
+        {{#if devoured}}
+        <li class="list-group-item p-1 disabled">
+            {{this.burger_name}}
+        </li>
+        {{/if}}
+        {{/each}}
+    </ul>
 </div>
